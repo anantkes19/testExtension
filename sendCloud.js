@@ -20,4 +20,12 @@ function loggedIn() {
   $("#password").hide();
 }
 
-$("#cloudSaveButton").click(sendPageData);
+function onLoad() {
+  $("#cloudSaveButton").click(function() {
+    alert( "Handler for .click() called." );
+  });
+  alert( "Alert() called" );
+
+}
+
+$(document).ready(onLoad);

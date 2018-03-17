@@ -7,10 +7,21 @@
       "default_popup": "hello.html",
       "default_icon": "hello_extensions.png"
     },
-    "content_scripts": [ {
-      "js": [ "jquery-3.3.1.min.js", "sendCloud.js" ],
-      "matches": [ "http://*/*", "https://*/*"]
-    }],
+    "permissions": [
+    "notifications"
+  ],
+    "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": ["jquery-3.3.1.min.js", "sendCloud.js"]
+    }
+  ],
+    "background": {
+      "scripts": ["jquery-3.3.1.min.js", "background.js"],
+      "persistent": false
+    },
     "commands": {
       "_execute_browser_action": {
         "suggested_key": {

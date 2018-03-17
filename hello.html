@@ -1,14 +1,16 @@
 
 <link href="bootstrap.min.css" rel="stylesheet">
-<!--<link href="custom.css" rel="stylesheet">-->
+<link href="custom.css" rel="stylesheet">
 <html>
-    <body style="width:300px;">
-      <h1>Classified Cloud</h1>
-      <h4>Logins</h4>
-      <h4>Logout</h4>
-
-      <button id="cloudSaveButton" class="btn btn-info">Save Page</button>
-
+    <body style="width:300px;padding:5%;">
+      <h1 id="title">Classified Cloud</h1>
+      <button id="login" class="btn btn-primary">Login</button>
+      <button id="logout" class="btn btn-danger">Logout</button>
+      <br style="clear:both;">
+      <button id="save" class="btn btn-success btn-lg btn-block">Save Page</button>
+      <input id="username" name="username" placeholder="Username"></input><br>
+      <input id="password" name="password" placeholder="Password"></input><br>
+      <button id="loginSubmit" class="btn btn-success">Submit</button>
 
       <script type="text/javascript" src="jquery-3.3.1.min.js"></script>
       <script type="text/javascript" src="background.js"></script>

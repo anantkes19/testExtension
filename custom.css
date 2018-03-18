@@ -1,17 +1,13 @@
-#login {
-  width:45%;
-  float:left;
-  margin-left: 2.5%;
-}
-#logout {
-  width:45%;
-  float:right;
-  margin-right: 2.5%;
-}
 #title {
   text-align: center;
 }
 #save {
   margin-top:2.5%;
 
+}
+
+body {
+  padding: 0 5%;
+  width:300px;
+  background-color:#F5F5F5;
 }

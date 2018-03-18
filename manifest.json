@@ -8,7 +8,9 @@
       "default_icon": "hello_extensions.png"
     },
     "permissions": [
-    "notifications"
+    "notifications",
+    "storage",
+    "tabs"
   ],
     "content_scripts": [
     {

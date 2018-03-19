@@ -4,8 +4,8 @@
     "version": "1.0",
     "manifest_version": 2,
     "browser_action": {
-      "default_popup": "hello.html",
-      "default_icon": "Cc.ico"
+      "default_popup": "extension.html",
+      "default_icon": "Cc.png"
     },
     "permissions": [
     "notifications",
@@ -17,7 +17,7 @@
       "matches": [
         "<all_urls>"
       ],
-      "js": ["jquery-3.3.1.min.js", "sendCloud.js"]
+      "js": ["jquery-3.3.1.min.js", "scrapeData.js"]
     }
   ],
     "background": {

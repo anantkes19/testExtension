@@ -10,9 +10,10 @@ function sendPageData() {
 
 function loginToggle() {
   //This function flips around objects viewing between states
+  $("#loginInfo").toggle();
   $("#login").toggle();
 
-  $("#loginInfo").toggle();
+
 }
 
 
@@ -33,7 +34,6 @@ function init() {
       $("#logout").hide();
       $("#login").show();
 
-      $("#loginInfo").hide();
 
     }
     console.log('ccToken was ' + result.ccToken);
@@ -50,9 +50,9 @@ function loginSubmit() {
           console.log('ccToken is set to ' + token);
         });
 
-
-  loginToggle();
   userStateToggle();
+  loginToggle();
+
   //If no, error message explaining
 }
 

@@ -1,3 +1,5 @@
+const URL='http://137.146.142.97:8080/';
+
 function sendPageData() {
   //This function will send the save data to the server
   chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
@@ -44,16 +46,34 @@ function init() {
 
 function loginSubmit() {
   //Send credentials to server
-  //If response is yes, login and call login toggle and userloggedin after. Save a cookie to user with their login token (saved on server too)
-  var token = 1234; //Token should be what the server returns, here is an example of 1234
-  chrome.storage.sync.set({'ccToken': token}, function() {
-          console.log('ccToken is set to ' + token);
-        });
-
-
-  loginToggle();
-  userStateToggle();
-  //If no, error message explaining
+  console.log($('#username').val());
+  console.log($('#password').val());
+  const data = {
+    email: $('#username').val(),
+    password: $('#password').val(),
+  }
+  $.ajax({
+    type: "POST",
+    url: `${URL}db/login/`,
+    data: data,
+    dataType: 'jsonp',
+    contentType: "application/json",
+  }).always(function (xhr, statusText, data) {
+    // $("#encoded").html(data.encoded);
+    console.log(xhr);
+    console.log(xhr.status);
+    console.log(data);
+    var token = 1234; //Token should be what the server returns, here is an example of 1234
+    chrome.storage.sync.set({'ccToken': token}, function() {
+      console.log('ccToken is set to ' + token);
+    });
+    loginToggle();
+    userStateToggle();
+  })
+  // .fail(function (xhr, status, error) {
+  //     // $("#error").html("Could not reach the API: " + error);
+  //     console.log(error);
+  // });
 }
 
 function userStateToggle() {

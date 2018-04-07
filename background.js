@@ -22,31 +22,20 @@ function init() {
   //if login token exists: Send token to server for validation (with username?)
   //If yes, show save, logout and hide login
   //else: hide save, logout and show login
-  chrome.storage.sync.get('ccToken', function(result) {
-    if(result.ccToken==1234) {
-      //Send to server and check if equal, here we do example
-      //Login automatically then!
-      $("#login").hide();
-      $("#loginInfo").hide();
+  chrome.storage.sync.get(['ccToken', 'email'], function(result) {
+    console.log(result);
+    sendLoginData(result.email, "null", result.ccToken, true);
 
-    } else {
-      $("#save").hide();
-      $("#logout").hide();
-      $("#login").show();
-
-
-    }
-    console.log('ccToken was ' + result.ccToken);
   });
 
 }
 
-
-function loginSubmit() {
-  //Send credentials to server
+function sendLoginData(email, password, token, initPhase) {
   var data = {};
-	data.email = "beep@beep.com";
-  data.password = "beep";
+	data.email = email;
+  userEmail = email;
+  data.password = password;
+  data.token = token;
   var returnValue;
   $.ajax({
 	type: 'POST',
@@ -54,10 +43,17 @@ function loginSubmit() {
   contentType: 'application/json',
   url: 'http://24.93.129.131:8080/db/login',
   success: function(data) {
+    console.log(data);
     if(data.authenticated) {
-      data.token = "1234";
-      chrome.storage.sync.set({'ccToken': data.token}, function() {
+      if(initPhase) {
+        $("#login").hide();
+        $("#loginInfo").hide();
+        return;
+      }
+
+      chrome.storage.sync.set({'ccToken': data.token, 'email':userEmail}, function() {
               console.log('ccToken is set to ' + data.token);
+              console.log('email set to ' + userEmail);
               userStateToggle();
               loginToggle();
         });
@@ -66,6 +62,14 @@ function loginSubmit() {
     }
   }
 });
+}
+
+function loginSubmit() {
+  //Send credentials to server
+	email = $("#username").val();
+  password = $("#password").val();
+  token = "0000";
+  sendLoginData(email, passord, token);
 }
 
 function userStateToggle() {
@@ -99,7 +103,10 @@ function onLoad() {
 
   $("#save").click(sendPageData);
   $("#login").click(loginToggle);
-  $("#loginSubmit").click(loginSubmit);
+  $("#loginSubmit").click(function( event ) {
+    event.preventDefault();
+    loginSubmit();
+  });
   $("#logout").click(logout);
 }
 

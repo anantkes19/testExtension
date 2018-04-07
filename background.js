@@ -44,16 +44,28 @@ function init() {
 
 function loginSubmit() {
   //Send credentials to server
-  //If response is yes, login and call login toggle and userloggedin after. Save a cookie to user with their login token (saved on server too)
-  var token = 1234; //Token should be what the server returns, here is an example of 1234
-  chrome.storage.sync.set({'ccToken': token}, function() {
-          console.log('ccToken is set to ' + token);
+  var data = {};
+	data.email = "beep@beep.com";
+  data.password = "beep";
+  var returnValue;
+  $.ajax({
+	type: 'POST',
+	data: JSON.stringify(data),
+  contentType: 'application/json',
+  url: 'http://24.93.129.131:8080/db/login',
+  success: function(data) {
+    if(data.authenticated) {
+      data.token = "1234";
+      chrome.storage.sync.set({'ccToken': data.token}, function() {
+              console.log('ccToken is set to ' + data.token);
+              userStateToggle();
+              loginToggle();
         });
-
-  userStateToggle();
-  loginToggle();
-
-  //If no, error message explaining
+    } else {
+      //Give error message that email/password was wrong.
+    }
+  }
+});
 }
 
 function userStateToggle() {

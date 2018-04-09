@@ -6,6 +6,10 @@
 
 }
 
+#loginInfo {
+  display:None;
+}
+
 body {
   padding: 0 5%;
   width:300px;

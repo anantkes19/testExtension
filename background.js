@@ -4,11 +4,13 @@ function sendPageData() {
     console.log(tabs.length);
     var url = tabs[0].url;
     chrome.storage.sync.get(['ccToken', 'email'], function(result) {
+      //Start storing the data to variable to send to server
       var data = {};
     	data.email = result.email;
       data.url = url;
       data.token = result.ccToken;
-      //var returnValue;
+
+      //Send data to server
       $.ajax({
       	type: 'POST',
       	data: JSON.stringify(data),
@@ -29,7 +31,7 @@ function sendPageData() {
   });
 
 }
-
+//This function resets (hides) all of the html elements
 function hideAll(){
   $("#login").hide();
   $("#loginInfo").hide();
@@ -38,16 +40,20 @@ function hideAll(){
   $("#logout").hide();
 }
 
+//This function Shows the login page
 function logInPage() {
   hideAll();
   $("#loginInfo").show();
 }
 
+//This function shows the home page
 function homePage() {
   hideAll();
   $("#login").show();
 }
 
+//This function shows the logged in page, where a user can save
+//a page to their cloud
 function loggedInPage() {
   hideAll();
   $("#logout").show();
@@ -71,13 +77,18 @@ function init() {
 
 }
 
+//This function is a general function to send login data, with or without a
+// password
 function sendLoginData(email, password, token) {
+  //Start storing the data to variable to send to server
   var data = {};
 	data.email = email;
   userEmail = email;
   data.password = password;
   data.token = token;
   var returnValue;
+
+  //Send data to server
   $.ajax({
 	type: 'POST',
 	data: JSON.stringify(data),
@@ -125,7 +136,7 @@ function logout() {
   homePage();
 }
 
-
+//This function runs as soon as the chrome extension is loaded
 function onLoad() {
   init(); //Call this to check if user logged in
 

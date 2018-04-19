@@ -95,7 +95,9 @@ function sendLoginData(email, password, token, login) {
   success: function(data) {
     //console.log(data);
     if(data.authenticated) {
-      loggedInPage();
+      if(login) {
+        loggedInPage();
+      }
       chrome.storage.sync.set({'ccToken': data.token, 'email':userEmail}, function() {
               console.log('ccToken is set to ' + data.token);
               console.log('email set to ' + userEmail);

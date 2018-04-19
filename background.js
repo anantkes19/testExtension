@@ -9,7 +9,11 @@ function sendPageData() {
     	data.email = result.email;
       data.url = url;
       data.token = result.ccToken;
-
+      //data.people = [];
+      //for x in textbox:
+        //data.people.append(x)
+      //Check for people here, add to data.people
+      //data.people = [person1, person2] //Person1 = "soft@gmail.com"
       //Send data to server
       $.ajax({
       	type: 'POST',
@@ -20,6 +24,7 @@ function sendPageData() {
           console.log(data);
           if(data.authenticated) {
             console.log("Article Saved!");
+            //Add alert to user saying Saved!
           } else {
             //Give error message that email/password was wrong.
           }
@@ -119,8 +124,8 @@ function sendLoginData(email, password, token, login) {
 function sendFile() {
   console.log("Testing Send File");
   chrome.storage.sync.get(['ccToken', 'email'], function(result) {
-    console.log(result);
-    loggedIn = sendLoginData(result.email, "null", result.ccToken);
+    //console.log(result);
+    loggedIn = sendLoginData(result.email, "null", result.ccToken, false);
 
     var data = {};
   	data.email = result.email;
@@ -159,15 +164,8 @@ function loginSubmit() {
 
 function logout() {
   //This function logs a user out
-  chrome.storage.sync.get('ccToken', function(result) {
-    console.log('ccToken was ' + result.ccToken);
-  });
-
-  //Checking here that it is removed!
   chrome.storage.sync.remove('ccToken', function(result) {
-    chrome.storage.sync.get('ccToken', function(result) {
-      console.log('ccToken was ' + result.ccToken);
-    });
+    console.log("Token removed");
   })
   //Delete stored token client side.
   homePage();
@@ -175,6 +173,7 @@ function logout() {
 
 //This function runs as soon as the chrome extension is loaded
 function onLoad() {
+  hideAll();
   init(); //Call this to check if user logged in
 
 

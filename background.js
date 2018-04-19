@@ -38,6 +38,7 @@ function hideAll(){
   $("#save").hide();
   $("#login").hide();
   $("#logout").hide();
+  $("#upload").hide();
 }
 
 //This function Shows the login page
@@ -58,6 +59,7 @@ function loggedInPage() {
   hideAll();
   $("#logout").show();
   $("#save").show();
+  $("#upload").show();
 }
 
 function init() {
@@ -112,6 +114,48 @@ function sendLoginData(email, password, token) {
 });
 }
 
+
+//This function sends a file to the server (PDF)
+function sendFile() {
+  chrome.storage.sync.get(['ccToken', 'email'], function(result) {
+    console.log(result);
+    loggedIn = sendLoginData(result.email, "null", result.ccToken);
+
+    var data = {};
+  	data.email = result.email;
+    data.password = "Null";
+    data.token = result.ccToken;
+    data.files = new FormData($("file")[0]);
+
+    var returnValue;
+    //It will send the user email, token and the pdfdata
+    $.ajax({
+  	type: 'POST',
+  	data: JSON.stringify(data),
+    contentType: 'application/json',
+    url: 'http://24.93.129.131:8080/db/upload',
+    success: function(data) {
+      console.log(data);
+      if(data.authenticated) {
+
+      } else {
+        //Give error message that email/password was wrong.
+        return false;
+      }
+    }
+  });
+
+
+
+
+    if(loggedIn) {
+      loggedInPage();
+    } else {
+      homePage();
+    }
+  });
+}
+
 function loginSubmit() {
   //Send credentials to server
 	email = $("#username").val();
@@ -148,6 +192,7 @@ function onLoad() {
     loginSubmit();
   });
   $("#logout").click(logout);
+  $("#upload").click(sendFile);
 }
 
 

@@ -69,19 +69,15 @@ function init() {
   //else: hide save, logout and show login
   chrome.storage.sync.get(['ccToken', 'email'], function(result) {
     console.log(result);
-    loggedIn = sendLoginData(result.email, "null", result.ccToken);
-    if(loggedIn) {
-      loggedInPage();
-    } else {
-      homePage();
-    }
+    sendLoginData(result.email, "null", result.ccToken, true);
+
   });
 
 }
 
 //This function is a general function to send login data, with or without a
 // password
-function sendLoginData(email, password, token) {
+function sendLoginData(email, password, token, login) {
   //Start storing the data to variable to send to server
   var data = {};
 	data.email = email;
@@ -97,17 +93,19 @@ function sendLoginData(email, password, token) {
   contentType: 'application/json',
   url: 'http://24.93.129.131:8080/db/login',
   success: function(data) {
-    console.log(data);
+    //console.log(data);
     if(data.authenticated) {
-
+      loggedInPage();
       chrome.storage.sync.set({'ccToken': data.token, 'email':userEmail}, function() {
               console.log('ccToken is set to ' + data.token);
               console.log('email set to ' + userEmail);
-              loggedInPage();
+
+
               return data.authenticated;
         });
     } else {
       //Give error message that email/password was wrong.
+      homePage();
       return false;
     }
   }
@@ -117,6 +115,7 @@ function sendLoginData(email, password, token) {
 
 //This function sends a file to the server (PDF)
 function sendFile() {
+  console.log("Testing Send File");
   chrome.storage.sync.get(['ccToken', 'email'], function(result) {
     console.log(result);
     loggedIn = sendLoginData(result.email, "null", result.ccToken);
@@ -130,29 +129,21 @@ function sendFile() {
     var returnValue;
     //It will send the user email, token and the pdfdata
     $.ajax({
-  	type: 'POST',
-  	data: JSON.stringify(data),
-    contentType: 'application/json',
-    url: 'http://24.93.129.131:8080/db/upload',
-    success: function(data) {
-      console.log(data);
-      if(data.authenticated) {
+    	type: 'POST',
+    	data: JSON.stringify(data),
+      contentType: 'application/json',
+      url: 'http://24.93.129.131:8080/db/upload',
+      success: function(data) {
+        console.log(data);
+        if(data.authenticated) {
+          console.log("Data file sent!")
 
-      } else {
-        //Give error message that email/password was wrong.
-        return false;
+        } else {
+          //Give error message that email/password was wrong.
+          return false;
+        }
       }
-    }
-  });
-
-
-
-
-    if(loggedIn) {
-      loggedInPage();
-    } else {
-      homePage();
-    }
+    });
   });
 }
 

@@ -9,12 +9,21 @@ function sendPageData() {
     	data.email = result.email;
       data.url = url;
       data.token = result.ccToken;
-      //data.people = [];
+      data.people = [];
       //for x in textbox:
-        //data.people.append(x)
-      //Check for people here, add to data.people
-      //data.people = [person1, person2] //Person1 = "soft@gmail.com"
-      //Send data to server
+      $('.emailTextbox').each(function(i){
+        
+        email = $(this).val();
+        data.people.push(email);
+        if (i==0)
+        {
+          $(this).val("");  // don't remove first textbox, just clear it
+          return; //continue
+        }
+        this.remove(); // remove all others
+      });
+      console.log(data.people);
+      // Send data to server
       $.ajax({
       	type: 'POST',
       	data: JSON.stringify(data),
@@ -32,10 +41,19 @@ function sendPageData() {
       });
     });
 
-    console.log(url + " has been sent to the cloud!");
+    // console.log(url + " has been sent to the cloud!");
   });
 
 }
+
+// this function adds another textbox so the user can share
+// the page with another person
+function addPerson(){
+  var copy = '<input type="text" class="emailTextbox">';
+  $("#shareWith").append(copy);
+  $("#addAnotherEmail").appendTo("#shareWith");
+}
+
 //This function resets (hides) all of the html elements
 function hideAll(){
   $("#login").hide();
@@ -44,6 +62,7 @@ function hideAll(){
   $("#login").hide();
   $("#logout").hide();
   $("#upload").hide();
+  $("#shareWith").hide();
 }
 
 //This function Shows the login page
@@ -65,22 +84,21 @@ function loggedInPage() {
   $("#logout").show();
   $("#save").show();
   $("#upload").show();
+  $("#shareWith").show();
 }
 
+//This function ensures things are hidden when they are supposed to be.
+//if login token exists: Send token to server for validation (with username?)
+//If yes, show save, logout and hide login
+//else: hide save, logout and show login
 function init() {
-  //This function ensures things are hidden when they are supposed to be.
-  //if login token exists: Send token to server for validation (with username?)
-  //If yes, show save, logout and hide login
-  //else: hide save, logout and show login
   chrome.storage.sync.get(['ccToken', 'email'], function(result) {
     console.log(result);
     sendLoginData(result.email, "null", result.ccToken, true);
-
   });
-
 }
 
-//This function is a general function to send login data, with or without a
+// This function is a general function to send login data, with or without a
 // password
 function sendLoginData(email, password, token, login) {
   //Start storing the data to variable to send to server
@@ -185,6 +203,7 @@ function onLoad() {
   });
   $("#logout").click(logout);
   $("#upload").click(sendFile);
+  $("#addAnotherEmail").click(addPerson);
 }
 
 

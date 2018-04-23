@@ -9,10 +9,10 @@ function sendPageData() {
     	data.email = result.email;
       data.url = url;
       data.token = result.ccToken;
-      data.people = [];
+      data.people = [data.email];
       //for x in textbox:
       $('.emailTextbox').each(function(i){
-        
+
         email = $(this).val();
         data.people.push(email);
         if (i==0)

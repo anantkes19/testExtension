@@ -10,6 +10,22 @@
   display:None;
 }
 
+#shareWith{
+	margin-top: 5%;
+	margin-bottom: 5%;
+	text-align: center;
+}
+
+#shareWithHeader
+{
+	display: inline-block;
+}
+
+#addAnotherEmail
+{
+	position: absolute; /* to prevent button from being considered in centering*/
+}
+
 body {
   padding: 0 5%;
   width:300px;

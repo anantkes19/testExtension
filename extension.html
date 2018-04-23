@@ -6,7 +6,18 @@
       <h1 id="title">Classified Cloud</h1>
       <button id="login" class="btn btn-primary btn-block">Login</button>
       <button id="logout" class="btn btn-danger btn-block">Logout</button>
+      <label id="upload" class="btn btn-info btn-block btn-file">
+        Upload File <input type="file" style="display: none;">
+      </label>  
       <button id="save" class="btn btn-success btn-lg btn-block">Save Page</button>
+
+      <div id="shareWith">
+        <span id="shareWithHeader">Share with:</span>
+        <br>
+        <input type="text" class="emailTextbox">
+        <input type="button" id="addAnotherEmail" value="+">
+      </div>
+
       <form id="loginInfo" class="form-group">
         <div class="form-group">
           <label for="username">Email Address</label>

@@ -73,39 +73,6 @@ function init() {
 
 }
 
-<<<<<<< HEAD
-
-function loginSubmit() {
-  //Send credentials to server
-  console.log($('#username').val());
-  console.log($('#password').val());
-  const data = {
-    email: $('#username').val(),
-    password: $('#password').val(),
-  }
-  $.ajax({
-    type: "POST",
-    url: `${URL}db/login/`,
-    data: data,
-    dataType: 'jsonp',
-    contentType: "application/json",
-  }).always(function (xhr, statusText, data) {
-    // $("#encoded").html(data.encoded);
-    console.log(xhr);
-    console.log(xhr.status);
-    console.log(data);
-    var token = 1234; //Token should be what the server returns, here is an example of 1234
-    chrome.storage.sync.set({'ccToken': token}, function() {
-      console.log('ccToken is set to ' + token);
-    });
-    loginToggle();
-    userStateToggle();
-  })
-  // .fail(function (xhr, status, error) {
-  //     // $("#error").html("Could not reach the API: " + error);
-  //     console.log(error);
-  // });
-=======
 function sendLoginData(email, password, token) {
   var data = {};
 	data.email = email;
@@ -134,7 +101,6 @@ function sendLoginData(email, password, token) {
     }
   }
 });
->>>>>>> 5313796b7387cba6b444fd0f7e91e7593265ba68
 }
 
 function loginSubmit() {

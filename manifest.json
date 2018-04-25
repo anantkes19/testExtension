@@ -9,15 +9,16 @@
     },
     "permissions": [
     "notifications",
+    "https://mail.google.com/*",
+    "activeTab",
     "storage",
     "tabs"
   ],
-    "content_scripts": [
+  "content_scripts": [
     {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": ["jquery-3.3.1.min.js", "scrapeData.js"]
+      "matches": ["https://mail.google.com/*"],
+      "js": ["jquery-3.3.1.min.js", "scrapeData.js"],
+      "run_at": "document_end"
     }
   ],
     "background": {

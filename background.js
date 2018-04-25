@@ -14,7 +14,10 @@ function sendPageData() {
       $('.emailTextbox').each(function(i){
 
         email = $(this).val();
-        data.people.push(email);
+        if(email != "") {
+          data.people.push(email);
+        }
+
         if (i==0)
         {
           $(this).val("");  // don't remove first textbox, just clear it
@@ -24,16 +27,23 @@ function sendPageData() {
       });
       console.log(data.people);
       // Send data to server
+      console.log("Saving page...");
+
+      //This needs to be moved inside the success function
+      $( "#success" ).fadeIn(1000, function() {
+        $("#success").fadeOut(1500);
+      });
       $.ajax({
       	type: 'POST',
       	data: JSON.stringify(data),
         contentType: 'application/json',
         url: 'http://24.93.129.131:8080/db/getURL',
         success: function(data) {
+          console.log("Page Saved!");
           console.log(data);
           if(data.authenticated) {
             console.log("Article Saved!");
-            //Add alert to user saying Saved!
+
           } else {
             //Give error message that email/password was wrong.
           }
@@ -63,6 +73,9 @@ function hideAll(){
   $("#logout").hide();
   $("#upload").hide();
   $("#shareWith").hide();
+  $("#success").hide();
+  $("#failure").hide();
+
 }
 
 //This function Shows the login page
@@ -94,7 +107,8 @@ function loggedInPage() {
 function init() {
   chrome.storage.sync.get(['ccToken', 'email'], function(result) {
     console.log(result);
-    sendLoginData(result.email, "null", result.ccToken, true);
+    //sendLoginData(result.email, "null", result.ccToken, true);
+    loggedInPage(); //Remove me soon
   });
 }
 
@@ -129,8 +143,9 @@ function sendLoginData(email, password, token, login) {
               return data.authenticated;
         });
     } else {
-      //Give error message that email/password was wrong.
-      homePage();
+      $( "#failure" ).fadeIn(1000, function() {
+        $("#failure").fadeOut(1500);
+      });
       return false;
     }
   }

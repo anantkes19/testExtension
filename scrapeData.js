@@ -21,7 +21,7 @@ function checkHa() {
 
 
 function loaded() {
-  //console.log("Still Working");
+  // console.log("Still Working");
   timer = setInterval(checkHa, 1000);
   //$(".ha").hide();
 

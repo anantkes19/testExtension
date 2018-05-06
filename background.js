@@ -28,11 +28,12 @@ function sendPageData() {
         }
         this.remove(); // remove all others
       });
-      console.log(data.people);
       // Send data to server
       console.log("Saving page...");
-
-      //This needs to be moved inside the success function
+      chrome.tabs.sendMessage(tabs[0].id, {method: "getSelection"}, function(response){
+        // sendServiceRequest(response.data);
+        data.description = response.data
+        //This needs to be moved inside the success function
       $( "#success" ).fadeIn(1000, function() {
         $("#success").fadeOut(1500);
       });
@@ -51,6 +52,7 @@ function sendPageData() {
             //Give error message that email/password was wrong.
           }
         }
+      });
       });
     });
 

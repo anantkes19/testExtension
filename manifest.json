@@ -20,6 +20,11 @@
       "matches": ["https://mail.google.com/*"],
       "js": ["jquery-3.3.1.min.js", "scrapeData.js"],
       "run_at": "document_end"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": ["jquery-3.3.1.min.js", "readSelected.js"],
+      "run_at": "document_idle"
     }
   ],
     "background": {

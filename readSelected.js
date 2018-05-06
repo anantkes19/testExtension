@@ -1,6 +1,6 @@
-
+//Set receiver to listen for extension asking if something is highlighted by the user.
 function setReceiver () {
-  console.log("Still Working");
+  //console.log("Still Working");
   chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     console.log('request, ', request);
     if (request.method == "getSelection") {
@@ -11,6 +11,6 @@ function setReceiver () {
       sendResponse({}); // snub them.
     }
   });
-} 
+}
 
 $(document).ready(setReceiver)

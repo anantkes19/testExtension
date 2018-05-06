@@ -1,18 +1,29 @@
-//chrome.tabs.executeScript({
-//    code: 'alert("WOO")'
-//  });
-//chrome.tabs.executeScript(null, {file: "content_script.js"});
 var ha = null;
 var timer = null;
 
+function sendGmail() {
+  console.log("Sending Gmail info");
+  chrome.runtime.sendMessage({
+    msg: "gmailInfo",
+    data: {
+        subject: "Loading", //Subject of email
+        content: "Just completed!" //Content of email
+    }
+  });
+
+}
+
+//As gmail dynamically loads we check every second to find the header or (Ha) class, where the buttons are.
 function checkHa() {
   //var elementExists = document.getElementsByClassName("ha");
   ha = $(".G-tF")
   console.log(ha)
   if(ha.length) {
     console.log("FOUND IT");
-    ha.css("background-color", "blue");
-    ha.append( "<div class='T-I J-J5-Ji T-I-Js-Gs ar7 mw T-I-ax7 L3'><span class='asa'>Upload To CC</span></div>" );
+    ha.append( "<div id='classifiedCloudSend' class='T-I J-J5-Ji T-I-Js-Gs ar7 mw T-I-ax7 L3'><span class='asa'>Upload To CC</span></div>" );
+    sendButton = $("#classifiedCloudSend");
+
+    sendButton.click(sendGmail);
     clearInterval(timer);
 
   } else {

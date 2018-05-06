@@ -33,6 +33,7 @@ function sendPageData() {
       chrome.tabs.sendMessage(tabs[0].id, {method: "getSelection"}, function(response){
         // sendServiceRequest(response.data);
         data.description = response.data
+
         //This needs to be moved inside the success function
       $( "#success" ).fadeIn(1000, function() {
         $("#success").fadeOut(1500);
@@ -49,6 +50,7 @@ function sendPageData() {
             console.log("Article Saved!");
 
           } else {
+            console.log("Error: Email/Password was incorrect");
             //Give error message that email/password was wrong.
           }
         }
@@ -184,6 +186,7 @@ function sendFile() {
           console.log("Data file sent!")
 
         } else {
+          console.log("Error: Email/Password was incorrect");
           //Give error message that email/password was wrong.
           return false;
         }
@@ -209,11 +212,61 @@ function logout() {
   homePage();
 }
 
+function setGmailReceiver() {
+  chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        if (request.msg === "gmailInfo") {
+            //  To do something
+            sendGmail(request.data)
+            //console.log(request.data.subject)
+            //console.log(request.data.content)
+        }
+    }
+  );
+}
+
+function sendGmail(gmailData) {
+  chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
+    console.log(tabs.length);
+    var url = tabs[0].url;
+    chrome.storage.sync.get(['ccToken', 'email'], function(result) {
+      //Start storing the data to variable to send to server
+      var data = {};
+      data.email = result.email;
+      data.url = url;
+      data.token = result.ccToken;
+      data.people = [data.email];
+      data.subject = gmailData.subect;
+      data.description = gmailData.content;
+      // Send data to server
+
+      $.ajax({
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url: 'http://localhost:8080/db/getURL',
+        success: function(data) {
+          console.log("Email Saving!!");
+          //console.log(data);
+          if(data.authenticated) {
+            console.log("Email Saved!");
+
+          } else {
+            //Give error message that email/password was wrong.
+            console.log("Error: Email/Password was incorrect");
+          }
+        }
+      });
+
+    });
+  });
+}
+
 //This function runs as soon as the chrome extension is loaded
 function onLoad() {
   hideAll();
   init(); //Call this to check if user logged in
-
+  setGmailReceiver();
 
   $("#save").click(sendPageData);
   $("#login").click(logInPage);
@@ -225,6 +278,8 @@ function onLoad() {
   $("#upload").click(sendFile);
   $("#addAnotherEmail").click(addPerson);
 }
+
+
 
 
 $(document).ready(onLoad);

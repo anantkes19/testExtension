@@ -1,4 +1,5 @@
-const URL='http://137.146.142.97:8080/';
+// const URL='http://137.146.142.97:8080/';
+const URL='http://localhost:8080/';
 
 function sendPageData() {
   //This function will send the save data to the server
@@ -30,7 +31,7 @@ function sendPageData() {
       	type: 'POST',
       	data: JSON.stringify(data),
         contentType: 'application/json',
-        url: 'http://24.93.129.131:8080/db/getURL',
+        url: 'http://localhost:8080/db/getURL',
         success: function(data) {
           console.log(data);
           if(data.authenticated) {
@@ -116,7 +117,7 @@ function sendLoginData(email, password, token, login) {
 	type: 'POST',
 	data: JSON.stringify(data),
   contentType: 'application/json',
-  url: 'http://24.93.129.131:8080/db/login',
+  url: 'http://localhost:8080/db/login',
   success: function(data) {
     //console.log(data);
     if(data.authenticated) {
@@ -159,7 +160,7 @@ function sendFile() {
     	type: 'POST',
     	data: JSON.stringify(data),
       contentType: 'application/json',
-      url: 'http://24.93.129.131:8080/db/upload',
+      url: 'http://localhost:8080/db/upload',
       success: function(data) {
         console.log(data);
         if(data.authenticated) {

@@ -236,12 +236,7 @@ function setGmailReceiver() {
   );
 }
 
-chrome.tabs.onUpdated.addListener(function(tabId, info, tab) {
-  chrome.tabs.sendMessage(tabs[0].id, {method: "newGmail"}, function(response){
-      console.log("New Page");
-    }
-  )}
-);
+
 
 function sendGmail(gmailData) {
   chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
@@ -296,6 +291,14 @@ function onLoad() {
   $("#logout").click(logout);
   //$("#upload").click(sendFile);
   $("#addAnotherEmail").click(addPerson);
+
+
+  chrome.tabs.onUpdated.addListener(function(tabId, info, tab) {
+    chrome.tabs.sendMessage(tabId, {method: "newGmail"}, function(response){
+        console.log("New Page");
+      }
+    )}
+  );
 }
 
 

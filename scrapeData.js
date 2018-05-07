@@ -24,8 +24,9 @@ function sendGmail() {
 function checkHa() {
 
   ha = $(".G-tF")
+  sendButton = $("#classifiedCloudSend");
   console.log(ha)
-  if(ha.length) {
+  if(ha.length && !sendButton.length) {
     console.log("FOUND IT");
     ha.append( "<div id='classifiedCloudSend' class='T-I J-J5-Ji T-I-Js-Gs ar7 mw T-I-ax7 L3'><span class='asa'>Upload To CC</span></div>" );
     sendButton = $("#classifiedCloudSend");
@@ -43,7 +44,13 @@ function setReceiver () {
   chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     console.log('request, ', request);
     if (request.method == "newGmail") {
-      timer = setInterval(checkHa, 1000);
+      console.log('test');
+      testHa = $(".G-tF").length
+      if(testHa) {
+        ha = null;
+        timer = setInterval(checkHa, 1000);
+      }
+
     } else {
       return;
     }
@@ -51,10 +58,9 @@ function setReceiver () {
 }
 
 function loaded() {
-  // console.log("Still Working");
+
   setReceiver();
   timer = setInterval(checkHa, 1000);
-  //$(".ha").hide();
 
   //console.log("Should be hidden!");
 }

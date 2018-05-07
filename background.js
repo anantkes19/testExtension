@@ -53,6 +53,11 @@ function sendPageData() {
             console.log("Error: Email/Password was incorrect");
             //Give error message that email/password was wrong.
           }
+        },
+        error: function() {
+        $( "#serverFailure" ).fadeIn(1000, function() {
+          $("#serverFailure").fadeOut(1500);
+          })
         }
       });
       });
@@ -82,6 +87,7 @@ function hideAll(){
   $("#shareWith").hide();
   $("#success").hide();
   $("#failure").hide();
+  $("#serverFailure").hide();
 
 }
 
@@ -114,8 +120,8 @@ function loggedInPage() {
 function init() {
   chrome.storage.sync.get(['ccToken', 'email'], function(result) {
     console.log(result);
-    sendLoginData(result.email, "null", result.ccToken, true);
-    //loggedInPage(); //Remove me soon
+    //sendLoginData(result.email, "null", result.ccToken, true);
+    loggedInPage(); //Remove me soon
   });
 }
 

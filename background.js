@@ -114,8 +114,8 @@ function loggedInPage() {
 function init() {
   chrome.storage.sync.get(['ccToken', 'email'], function(result) {
     console.log(result);
-    //sendLoginData(result.email, "null", result.ccToken, true);
-    loggedInPage(); //Remove me soon
+    sendLoginData(result.email, "null", result.ccToken, true);
+    //loggedInPage(); //Remove me soon
   });
 }
 
@@ -161,6 +161,8 @@ function sendLoginData(email, password, token, login) {
 
 
 //This function sends a file to the server (PDF)
+
+//Does Not Work
 function sendFile() {
   console.log("Testing Send File");
   chrome.storage.sync.get(['ccToken', 'email'], function(result) {

@@ -1,13 +1,19 @@
 var ha = null;
 var timer = null;
 
+
 function sendGmail() {
+  content = $(".a3s:not(.undefined)").text();
+  headerInfo = $(".hP").text();
   console.log("Sending Gmail info");
+  console.log(headerInfo);
+  console.log(content);
+
   chrome.runtime.sendMessage({
     msg: "gmailInfo",
     data: {
-        subject: "Loading", //Subject of email
-        content: "Just completed!" //Content of email
+        subject: headerInfo, //Subject of email
+        content: content //Content of email
     }
   });
 
@@ -15,7 +21,7 @@ function sendGmail() {
 
 //As gmail dynamically loads we check every second to find the header or (Ha) class, where the buttons are.
 function checkHa() {
-  //var elementExists = document.getElementsByClassName("ha");
+
   ha = $(".G-tF")
   console.log(ha)
   if(ha.length) {

@@ -78,7 +78,7 @@ function hideAll(){
   $("#save").hide();
   $("#login").hide();
   $("#logout").hide();
-  $("#upload").hide();
+  //$("#upload").hide();
   $("#shareWith").hide();
   $("#success").hide();
   $("#failure").hide();
@@ -103,7 +103,7 @@ function loggedInPage() {
   hideAll();
   $("#logout").show();
   $("#save").show();
-  $("#upload").show();
+  //$("#upload").show();
   $("#shareWith").show();
 }
 
@@ -277,7 +277,7 @@ function onLoad() {
     loginSubmit();
   });
   $("#logout").click(logout);
-  $("#upload").click(sendFile);
+  //$("#upload").click(sendFile);
   $("#addAnotherEmail").click(addPerson);
 }
 

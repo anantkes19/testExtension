@@ -122,8 +122,8 @@ function loggedInPage() {
 function init() {
   chrome.storage.sync.get(['ccToken', 'email'], function(result) {
     console.log(result);
-    //sendLoginData(result.email, "null", result.ccToken, true);
-    loggedInPage(); //Remove me soon
+    sendLoginData(result.email, "null", result.ccToken, true);
+    //loggedInPage(); //Remove me soon
   });
 }
 

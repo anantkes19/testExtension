@@ -14,6 +14,7 @@ function sendPageData() {
       data.token = result.ccToken;
       data.people = [data.email];
       data.title = "";
+      data.isEmail = false;
       //for x in textbox:
       $('.emailTextbox').each(function(i){
 
@@ -181,6 +182,7 @@ function sendFile() {
     data.password = "Null";
     data.token = result.ccToken;
     data.files = new FormData($("file")[0]);
+    //data.isEmail = true;
 
     var returnValue;
     //It will send the user email, token and the pdfdata
@@ -247,6 +249,7 @@ function sendGmail(gmailData) {
       data.people = [data.email];
       data.title = gmailData.subject;
       data.description = gmailData.content;
+      data.isEmail = true;
       // Send data to server
 
       $.ajax({

@@ -19,6 +19,7 @@ function sendGmail() {
 
 }
 
+
 //As gmail dynamically loads we check every second to find the header or (Ha) class, where the buttons are.
 function checkHa() {
 
@@ -37,9 +38,21 @@ function checkHa() {
   }
 }
 
+function setReceiver () {
+  //console.log("Still Working");
+  chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
+    console.log('request, ', request);
+    if (request.method == "newGmail") {
+      timer = setInterval(checkHa, 1000);
+    } else {
+      return;
+    }
+  });
+}
 
 function loaded() {
   // console.log("Still Working");
+  setReceiver();
   timer = setInterval(checkHa, 1000);
   //$(".ha").hide();
 

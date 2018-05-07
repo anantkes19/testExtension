@@ -13,6 +13,7 @@ function sendPageData() {
       data.url = url;
       data.token = result.ccToken;
       data.people = [data.email];
+      data.title = "";
       //for x in textbox:
       $('.emailTextbox').each(function(i){
 
@@ -244,7 +245,7 @@ function sendGmail(gmailData) {
       data.url = url;
       data.token = result.ccToken;
       data.people = [data.email];
-      data.subject = gmailData.subect;
+      data.title = gmailData.subject;
       data.description = gmailData.content;
       // Send data to server
 

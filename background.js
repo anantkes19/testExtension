@@ -37,9 +37,7 @@ function sendPageData() {
         data.description = response.data
 
         //This needs to be moved inside the success function
-      $( "#success" ).fadeIn(1000, function() {
-        $("#success").fadeOut(1500);
-      });
+
       $.ajax({
       	type: 'POST',
       	data: JSON.stringify(data),
@@ -47,6 +45,9 @@ function sendPageData() {
         url: 'http://localhost:8080/db/getURL',
         success: function(data) {
           console.log("Page Saved!");
+          $( "#success" ).fadeIn(1000, function() {
+            $("#success").fadeOut(1500);
+          });
           console.log(data);
           if(data.authenticated) {
             console.log("Article Saved!");
@@ -161,7 +162,7 @@ function sendLoginData(email, password, token, login) {
       $( "#failure" ).fadeIn(1000, function() {
         $("#failure").fadeOut(1500);
       });
-      return false;
+      homePage();
     }
   }
 });

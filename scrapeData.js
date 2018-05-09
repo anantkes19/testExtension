@@ -1,13 +1,10 @@
 var ha = null;
 var timer = null;
 
-
+//This function sends a message to the extension with the data of the gmail email
 function sendGmail() {
   content = $(".a3s:not(.undefined)").text();
   headerInfo = $(".hP").text();
-  console.log("Sending Gmail info");
-  console.log(headerInfo);
-  console.log(content);
 
   chrome.runtime.sendMessage({
     msg: "gmailInfo",
@@ -41,10 +38,9 @@ function checkHa() {
   }
 }
 
+//This function sets a receiver to listen if the page url changes
 function setReceiver () {
-  //console.log("Still Working");
   chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-    console.log('request, ', request);
     if (request.method == "newGmail") {
       console.log('test');
       testHa = $(".G-tF").length
@@ -62,6 +58,7 @@ function setReceiver () {
   });
 }
 
+//Function called when page is done loading
 function loaded() {
 
   setReceiver();

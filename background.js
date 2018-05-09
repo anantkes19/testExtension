@@ -2,7 +2,7 @@
 const URL='http://localhost:8080/';
 
 function sendPageData() {
-  //This function will send the save data to the server
+  //This function will send the page data to the server, and ensure the user is properly logged in while doing so
   chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
     console.log(tabs.length);
     var url = tabs[0].url;
@@ -171,7 +171,7 @@ function sendLoginData(email, password, token, login) {
 
 //This function sends a file to the server (PDF)
 
-//Does Not Work
+//Does Not Work, using website version instead. Keeping incase of future work
 function sendFile() {
   console.log("Testing Send File");
   chrome.storage.sync.get(['ccToken', 'email'], function(result) {
@@ -207,6 +207,7 @@ function sendFile() {
   });
 }
 
+//Function used to login at loginPage, by entering your information
 function loginSubmit() {
   //Send credentials to server
 	email = $("#username").val();
@@ -215,6 +216,7 @@ function loginSubmit() {
   sendLoginData(email, password, token, true);
 }
 
+//This function removes the cctoken associated with your computer so loggin in will fail.
 function logout() {
   //This function logs a user out
   chrome.storage.sync.remove('ccToken', function(result) {
@@ -224,21 +226,20 @@ function logout() {
   homePage();
 }
 
+
+//Set a listener to listen for a GmailSave message
 function setGmailReceiver() {
   chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         if (request.msg === "gmailInfo") {
-            //  To do something
             sendGmail(request.data)
-            //console.log(request.data.subject)
-            //console.log(request.data.content)
         }
     }
   );
 }
 
-
-
+//This function is a modifed (And needs to be refactored because of this)
+//savePage function, specific to gmail
 function sendGmail(gmailData) {
   chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
     console.log(tabs.length);
@@ -290,10 +291,12 @@ function onLoad() {
     loginSubmit();
   });
   $("#logout").click(logout);
-  //$("#upload").click(sendFile);
+  //$("#upload").click(sendFile); Removed as it does not work
   $("#addAnotherEmail").click(addPerson);
 
-
+  //This function sends a message to the page when the URL changes, this is
+  //because some pages are dynamic, like gmail, and doesn't refresh the page
+  //when the url updates
   chrome.tabs.onUpdated.addListener(function(tabId, info, tab) {
     chrome.tabs.sendMessage(tabId, {method: "newGmail"}, function(response){
         console.log("New Page");

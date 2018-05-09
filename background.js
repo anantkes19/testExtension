@@ -212,7 +212,7 @@ function loginSubmit() {
 	email = $("#username").val();
   password = $("#password").val();
   token = "0000";
-  sendLoginData(email, password, token);
+  sendLoginData(email, password, token, true);
 }
 
 function logout() {
